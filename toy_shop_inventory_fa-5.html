@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5742d9">
+<title>انبارداری اسباب‌بازی‌فروشی</title>
+<style>
+:root{--purple:#5742d9;--purple2:#7867f0;--bg:#f5f5fc;--ink:#24233a;--muted:#77768c;--green:#0da66a;--red:#e84368;--orange:#f4a51c;--card:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif;font-size:14px}
+header{background:linear-gradient(135deg,var(--purple),#3928a8);color:#fff;padding:22px 18px 18px;border-radius:0 0 24px 24px;box-shadow:0 5px 18px #3828a833}
+header h1{font-size:21px;margin:0 0 7px}header p{margin:0;color:#e7e3ff;font-size:12px}
+main{max-width:760px;margin:auto;padding:15px 13px 90px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:-2px}
+.stat{background:white;border-radius:16px;padding:14px;box-shadow:0 3px 12px #24233a0b}.stat small{color:var(--muted)}.stat strong{display:block;font-size:21px;margin-top:8px}
+.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
+button,.btn{border:0;border-radius:12px;padding:12px 13px;font:inherit;font-weight:700;cursor:pointer}
+.action{min-height:74px;color:white;text-align:right;display:flex;align-items:center;gap:10px;font-size:15px;box-shadow:0 3px 10px #2221}
+.action span{font-size:24px}.a1{background:#0eaf78}.a2{background:#4d83f4}.a3{background:#ef4775}.a4{background:#f5aa14}
+.panel{background:white;border-radius:17px;padding:15px;margin:12px 0;box-shadow:0 3px 12px #24233a0b}
+.panel h2{font-size:16px;margin:0 0 13px}
+input,select,textarea{width:100%;border:1px solid #deddec;border-radius:10px;padding:12px;background:#fff;font:inherit;color:var(--ink);margin:5px 0 10px;outline-color:var(--purple)}
+label{font-size:12px;color:#5d5b73;font-weight:bold}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.primary{background:var(--purple);color:white}.green{background:var(--green);color:white}.danger{background:var(--red);color:white}.light{background:#efedff;color:var(--purple)}
+.toolbar{display:flex;gap:8px;align-items:center}.toolbar input{margin:0}.toolbar select{margin:0;width:auto}
+.item{border:1px solid #eeedf5;border-radius:13px;padding:12px;margin:9px 0;display:flex;gap:10px;align-items:center}
+.toy{width:45px;height:45px;flex:0 0 45px;border-radius:12px;background:#f0eeff;display:grid;place-items:center;font-size:25px}
+.iteminfo{flex:1;min-width:0}.iteminfo b{display:block;margin-bottom:6px}.muted{color:var(--muted);font-size:12px;line-height:1.8}.qty{font-weight:bold;color:var(--green);white-space:nowrap}.low{color:var(--red)}
+.badge{font-size:11px;border-radius:20px;padding:4px 7px;background:#e6f8ef;color:#078453}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;box-shadow:0 -4px 18px #2221;display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:5}
+nav button{background:transparent;color:#77768c;padding:7px 5px;font-size:11px;display:flex;flex-direction:column;gap:3px;align-items:center}nav button span{font-size:19px}nav button.active{color:var(--purple)}
+.view{display:none}.view.active{display:block}.hidden{display:none!important}
+table{width:100%;border-collapse:collapse;font-size:12px}th,td{text-align:right;padding:10px 5px;border-bottom:1px solid #eee}th{color:var(--muted)}
+.notice{background:#fff4d9;color:#845a00;border-radius:10px;padding:10px;line-height:1.8;font-size:12px}
+.empty{text-align:center;color:var(--muted);padding:25px 8px}
+footer{text-align:center;color:#999;font-size:10px;margin:18px}
+@media(min-width:600px){.stats{grid-template-columns:repeat(4,1fr)}.actions{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header><h1>🧸 انبارداری اسباب‌بازی‌فروشی</h1><p>مدیریت ساده کالا، خرید، فروش و موجودی مغازه</p></header>
+<main>
+<section id="home" class="view active">
+ <div class="stats">
+  <div class="stat"><small>تعداد مدل کالا</small><strong id="sProducts">۰</strong></div>
+  <div class="stat"><small>تعداد کل موجودی</small><strong id="sUnits">۰</strong></div>
+  <div class="stat"><small>فروش امروز</small><strong id="sSales">۰</strong><small>تومان</small></div>
+  <div class="stat"><small>کالاهای کم‌موجود</small><strong id="sLow">۰</strong></div>
+ </div>
+ <div class="actions">
+  <button class="action a1" onclick="show('products');openProduct()"><span>➕</span>ثبت اسباب‌بازی</button>
+  <button class="action a2" onclick="show('stock');setMode('in')"><span>📥</span>ورود کالا</button>
+  <button class="action a3" onclick="show('stock');setMode('out')"><span>🛍️</span>ثبت فروش</button>
+  <button class="action a4" onclick="show('reports')"><span>📊</span>گزارش‌ها</button>
+ </div>
+ <div class="panel"><h2>⚠️ کالاهای کم‌موجود</h2><div id="lowList"></div></div>
+ <div class="panel"><h2>🕘 آخرین گردش کالا</h2><div id="recentList"></div></div>
+</section>
+
+<section id="products" class="view">
+ <div class="panel" id="productFormPanel">
+  <h2 id="formTitle">➕ ثبت اسباب‌بازی جدید</h2>
+  <form id="productForm">
+   <input type="hidden" id="editId">
+   <label>نام اسباب‌بازی *</label><input id="pName" required placeholder="مثلاً ماشین کنترلی">
+   <div class="grid2"><div><label>کد کالا</label><input id="pCode" placeholder="خودکار ساخته می‌شود"></div><div><label>دسته‌بندی</label><select id="pCategory"><option>ماشین و وسایل نقلیه</option><option>عروسک</option><option>لگو و ساختنی</option><option>بازی فکری</option><option>تفنگ و اکشن</option><option>نوزاد و خردسال</option><option>سایر</option></select></div></div>
+   <div class="grid2"><div><label>قیمت خرید (تومان) *</label><input id="pBuy" type="number" min="0" required value="0"></div><div><label>قیمت فروش (تومان) *</label><input id="pSell" type="number" min="0" required value="0"></div></div>
+   <div class="grid2"><div><label>موجودی اولیه</label><input id="pQty" type="number" min="0" value="0"></div><div><label>هشدار در موجودی کمتر از</label><input id="pMin" type="number" min="0" value="3"></div></div>
+   <label>یادداشت (اختیاری)</label><input id="pNote" placeholder="رنگ، اندازه یا توضیح">
+   <button class="primary" type="submit" style="width:100%">ذخیره کالا</button> <button class="light hidden" type="button" id="cancelEdit" onclick="resetForm()">لغو ویرایش</button>
+  </form>
+ </div>
+ <div class="panel"><h2>📦 فهرست کالاها</h2><input id="search" placeholder="🔎 جست‌وجو بر اساس نام یا کد..." oninput="renderProducts()"><div class="toolbar"><select id="filterCategory" onchange="renderProducts()"><option value="">همه دسته‌ها</option><option>ماشین و وسایل نقلیه</option><option>عروسک</option><option>لگو و ساختنی</option><option>بازی فکری</option><option>تفنگ و اکشن</option><option>نوزاد و خردسال</option><option>سایر</option></select><select id="filterStock" onchange="renderProducts()"><option value="">همه موجودی‌ها</option><option value="low">کم‌موجود</option><option value="zero">ناموجود</option></select></div><div id="productList"></div></div>
+</section>
+
+<section id="stock" class="view">
+ <div class="panel"><h2 id="stockTitle">📥 ورود کالا به انبار</h2>
+  <div class="grid2"><button id="inBtn" class="green" onclick="setMode('in')">📥 ورود / خرید</button><button id="outBtn" class="light" onclick="setMode('out')">🛍️ فروش / خروج</button></div>
+  <form id="stockForm"><label>انتخاب کالا *</label><select id="stockProduct" required></select>
+   <div class="grid2"><div><label>تعداد *</label><input id="stockQty" type="number" min="1" required value="1"></div><div><label id="priceLabel">قیمت خرید هر عدد (تومان)</label><input id="stockPrice" type="number" min="0" value="0" required></div></div>
+   <label>توضیحات (اختیاری)</label><input id="stockNote" placeholder="مثلاً خرید از عمده‌فروش">
+   <button id="stockSubmit" class="green" style="width:100%">ثبت ورود کالا</button>
+  </form><p class="muted">در فروش، موجودی به‌صورت خودکار کم می‌شود. فروش بیشتر از موجودی مجاز نیست.</p>
+ </div>
+ <div class="panel"><h2>📜 سوابق ورود و خروج</h2><div id="historyList"></div></div>
+</section>
+
+<section id="reports" class="view">
+ <div class="stats">
+  <div class="stat"><small>فروش کل ثبت‌شده</small><strong id="rSales">۰</strong><small>تومان</small></div>
+  <div class="stat"><small>هزینه خرید ثبت‌شده</small><strong id="rPurchases">۰</strong><small>تومان</small></div>
+  <div class="stat"><small>سود تقریبی فروش</small><strong id="rProfit">۰</strong><small>تومان</small></div>
+  <div class="stat"><small>ارزش موجودی با قیمت خرید</small><strong id="rValue">۰</strong><small>تومان</small></div>
+ </div>
+ <div class="panel"><h2>📊 گزارش فروش روزانه</h2><div id="dailyReport"></div></div>
+ <div class="panel"><h2>💾 پشتیبان‌گیری و بازیابی</h2><p class="muted">اطلاعات این نسخه روی همین گوشی و مرورگر ذخیره می‌شود. برای جلوگیری از دست رفتن اطلاعات، هر چند وقت یک‌بار فایل پشتیبان بگیر.</p><button class="primary" onclick="backup()">⬇️ دانلود نسخه پشتیبان</button><label style="display:block;margin-top:15px">بازیابی فایل پشتیبان</label><input type="file" id="restoreFile" accept=".json,application/json"><button class="light" onclick="restoreBackup()">بازیابی اطلاعات</button><button class="danger" style="float:left" onclick="clearAll()">پاک کردن همه اطلاعات</button><div style="clear:both"></div></div>
+</section>
+<footer>نسخه ساده و آفلاین • اطلاعات فقط در همین مرورگر ذخیره می‌شود</footer>
+</main>
+<nav>
+ <button class="active" data-view="home" onclick="show('home')"><span>🏠</span>خانه</button>
+ <button data-view="products" onclick="show('products')"><span>🧸</span>کالاها</button>
+ <button data-view="stock" onclick="show('stock');setMode('in')"><span>📥</span>ورود/فروش</button>
+ <button data-view="reports" onclick="show('reports')"><span>📊</span>گزارش‌ها</button>
+</nav>
+<script>
+const KEY='toyShopInventory_v1';
+let db={products:[],moves:[]}, mode='in';
+const fa=n=>Number(n||0).toLocaleString('fa-IR');
+const money=n=>fa(n)+' تومان';
+const dateKey=d=>{const x=new Date(d);return x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate()};
+const dateText=d=>new Date(d).toLocaleString('fa-IR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+function load(){try{const x=localStorage.getItem(KEY);if(x)db=JSON.parse(x)}catch(e){alert('خواندن اطلاعات ذخیره‌شده ممکن نشد.')}renderAll()}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
+function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));if(id==='products')renderProducts();if(id==='stock'){renderProductOptions();renderHistory()}if(id==='reports')renderReports();window.scrollTo(0,0)}
+function resetForm(){document.getElementById('productForm').reset();editId.value='';pQty.value=0;pBuy.value=0;pSell.value=0;pMin.value=3;formTitle.textContent='➕ ثبت اسباب‌بازی جدید';cancelEdit.classList.add('hidden')}
+function openProduct(){resetForm();show('products');setTimeout(()=>pName.focus(),100)}
+document.getElementById('productForm').addEventListener('submit',e=>{e.preventDefault();let id=editId.value;let name=pName.value.trim();if(!name)return;let code=pCode.value.trim()||('K'+Date.now().toString().slice(-6));if(db.products.some(p=>p.code===code&&p.id!==id)){alert('این کد کالا قبلاً ثبت شده است.');return}
+if(id){let p=db.products.find(x=>x.id===id);if(!p)return;p.name=name;p.code=code;p.category=pCategory.value;p.buy=+pBuy.value;p.sell=+pSell.value;p.min=+pMin.value;p.note=pNote.value.trim();let diff=+pQty.value-p.qty;if(diff!==0){p.qty=Math.max(0,p.qty+diff);db.moves.unshift({id:Date.now(),pid:p.id,type:diff>0?'in':'adjust',qty:Math.abs(diff),price:p.buy,note:'اصلاح موجودی هنگام ویرایش',time:new Date().toISOString()})}}
+else{let qty=+pQty.value;let p={id:String(Date.now()),name,code,category:pCategory.value,buy:+pBuy.value,sell:+pSell.value,qty,min:+pMin.value,note:pNote.value.trim()};db.products.unshift(p);if(qty)db.moves.unshift({id:Date.now(),pid:p.id,type:'in',qty,price:p.buy,note:'موجودی اولیه',time:new Date().toISOString()})}
+resetForm();save();alert('کالا ذخیره شد.');});
+function editProduct(id){let p=db.products.find(x=>x.id===id);if(!p)return;show('products');editId.value=p.id;pName.value=p.name;pCode.value=p.code;pCategory.value=p.category;pBuy.value=p.buy;pSell.value=p.sell;pQty.value=p.qty;pMin.value=p.min;pNote.value=p.note||'';formTitle.textContent='✏️ ویرایش کالا';cancelEdit.classList.remove('hidden');document.getElementById('productFormPanel').scrollIntoView({behavior:'smooth'})}
+function delProduct(id){if(!confirm('این کالا حذف شود؟ سوابق گردش آن باقی می‌ماند.'))return;db.products=db.products.filter(p=>p.id!==id);save()}
+function renderProducts(){let q=(search.value||'').trim().toLowerCase(),cat=filterCategory.value,fs=filterStock.value;let arr=db.products.filter(p=>(!q||(p.name+' '+p.code).toLowerCase().includes(q))&&(!cat||p.category===cat)&&(!fs||(fs==='low'&&p.qty<=p.min)||(fs==='zero'&&p.qty===0)));productList.innerHTML=arr.length?arr.map(p=>`<div class="item"><div class="toy">${emoji(p.category)}</div><div class="iteminfo"><b>${esc(p.name)}</b><div class="muted">کد: ${esc(p.code)} • ${esc(p.category)}<br>خرید: ${money(p.buy)} | فروش: ${money(p.sell)}</div><div class="qty ${p.qty<=p.min?'low':''}">موجودی: ${fa(p.qty)} عدد ${p.qty<=p.min?'⚠️':''}</div></div><div><button class="light" onclick="editProduct('${p.id}')">ویرایش</button><button class="danger" style="margin-top:5px" onclick="delProduct('${p.id}')">حذف</button></div></div>`).join(''):'<div class="empty">هنوز کالایی ثبت نشده است. از فرم بالا اولین اسباب‌بازی را اضافه کن.</div>'}
+function emoji(c){return ({'ماشین و وسایل نقلیه':'🚗','عروسک':'🧸','لگو و ساختنی':'🧱','بازی فکری':'🧩','تفنگ و اکشن':'🤖','نوزاد و خردسال':'🪀','سایر':'🎁'})[c]||'🧸'}
+function setMode(m){mode=m;stockTitle.textContent=m==='in'?'📥 ورود کالا به انبار':'🛍️ ثبت فروش / خروج کالا';stockSubmit.textContent=m==='in'?'ثبت ورود کالا':'ثبت فروش';stockSubmit.className=m==='in'?'green':'danger';priceLabel.textContent=m==='in'?'قیمت خرید هر عدد (تومان)':'قیمت فروش هر عدد (تومان)';inBtn.className=m==='in'?'green':'light';outBtn.className=m==='out'?'danger':'light';renderProductOptions();stockPrice.value='';}
+function renderProductOptions(){let old=stockProduct.value;stockProduct.innerHTML=db.products.length?db.products.map(p=>`<option value="${p.id}">${esc(p.name)} (موجودی: ${fa(p.qty)})</option>`).join(''):'<option value="">ابتدا کالا ثبت کنید</option>';if(db.products.some(p=>p.id===old))stockProduct.value=old;updateStockPrice()}
+function updateStockPrice(){let p=db.products.find(p=>p.id===stockProduct.value);if(p)stockPrice.value=mode==='in'?p.buy:p.sell}
+stockProduct.addEventListener('change',updateStockPrice);
+document.getElementById('stockForm').addEventListener('submit',e=>{e.preventDefault();let p=db.products.find(p=>p.id===stockProduct.value),qty=+stockQty.value,price=+stockPrice.value;if(!p||qty<1)return;if(mode==='out'&&qty>p.qty){alert('موجودی کافی نیست. موجودی فعلی: '+fa(p.qty));return}if(mode==='out'&&!confirm(`${p.name}، تعداد ${fa(qty)} عدد، مبلغ ${money(qty*price)} ثبت شود؟`))return;p.qty+=mode==='in'?qty:-qty;if(mode==='in')p.buy=price;db.moves.unshift({id:Date.now(),pid:p.id,type:mode,qty,price,note:stockNote.value.trim(),time:new Date().toISOString()});stockNote.value='';stockQty.value=1;save();renderProductOptions();renderHistory();alert(mode==='in'?'ورود کالا ثبت شد.':'فروش ثبت شد.');});
+function renderHistory(){let arr=db.moves.slice(0,30);historyList.innerHTML=arr.length?arr.map(m=>{let p=db.products.find(p=>p.id===m.pid);let label=m.type==='in'?'ورود':m.type==='out'?'فروش':'اصلاح';return `<div class="item"><div class="toy">${m.type==='out'?'🛍️':'📦'}</div><div class="iteminfo"><b>${esc(p?p.name:'کالای حذف‌شده')} — ${label}</b><div class="muted">${dateText(m.time)}<br>${fa(m.qty)} عدد × ${money(m.price)} ${m.note?'• '+esc(m.note):''}</div></div><b class="${m.type==='out'?'low':'qty'}">${m.type==='out'?'−':'+'}${fa(m.qty)}</b></div>`}).join(''):'<div class="empty">هنوز گردش کالایی ثبت نشده است.</div>'}
+function renderAll(){renderProducts();renderProductOptions();renderHistory();renderHome();renderReports()}
+function renderHome(){sProducts.textContent=fa(db.products.length);sUnits.textContent=fa(db.products.reduce((s,p)=>s+p.qty,0));sLow.textContent=fa(db.products.filter(p=>p.qty<=p.min).length);let today=dateKey(new Date()),sales=db.moves.filter(m=>m.type==='out'&&dateKey(m.time)===today).reduce((s,m)=>s+m.qty*m.price,0);sSales.textContent=fa(sales);let lows=db.products.filter(p=>p.qty<=p.min);lowList.innerHTML=lows.length?lows.map(p=>`<div class="item"><div class="toy">${emoji(p.category)}</div><div class="iteminfo"><b>${esc(p.name)}</b><div class="muted">حد هشدار: ${fa(p.min)}</div></div><strong class="low">${fa(p.qty)} عدد</strong></div>`).join(''):'<div class="empty">همه کالاها موجودی مناسبی دارند 🎉</div>';recentList.innerHTML=db.moves.length?db.moves.slice(0,5).map(m=>{let p=db.products.find(p=>p.id===m.pid);return `<div class="item"><div class="toy">${m.type==='out'?'🛍️':'📦'}</div><div class="iteminfo"><b>${esc(p?p.name:'کالای حذف‌شده')}</b><div class="muted">${dateText(m.time)} • ${m.type==='out'?'فروش':'ورود'} ${fa(m.qty)} عدد</div></div></div>`}).join(''):'<div class="empty">هنوز فعالیتی ثبت نشده است.</div>'}
+
+function renderReports(){let outs=db.moves.filter(m=>m.type==='out'),ins=db.moves.filter(m=>m.type==='in');let sales=outs.reduce((s,m)=>s+m.qty*m.price,0),purchases=ins.reduce((s,m)=>s+m.qty*m.price,0),profit=outs.reduce((s,m)=>{let p=db.products.find(p=>p.id===m.pid);return s+m.qty*(m.price-(p?p.buy:0))},0),value=db.products.reduce((s,p)=>s+p.qty*p.buy,0);rSales.textContent=fa(sales);rPurchases.textContent=fa(purchases);rProfit.textContent=fa(profit);rValue.textContent=fa(value);let groups={};outs.forEach(m=>{let k=dateKey(m.time);groups[k]=(groups[k]||0)+m.qty*m.price});let rows=Object.entries(groups).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,14);dailyReport.innerHTML=rows.length?`<table><thead><tr><th>تاریخ</th><th>مبلغ فروش</th></tr></thead><tbody>${rows.map(([d,v])=>`<tr><td>${new Date(d).toLocaleDateString('fa-IR')}</td><td>${money(v)}</td></tr>`).join('')}</tbody></table>`:'<div class="empty">بعد از ثبت فروش، گزارش اینجا نمایش داده می‌شود.</div>'}
+function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='پشتیبان-انبار-اسباب-بازی.json';a.click();URL.revokeObjectURL(a.href)}
+function restoreBackup(){let f=restoreFile.files[0];if(!f){alert('ابتدا فایل پشتیبان را انتخاب کن.');return}let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!Array.isArray(d.products)||!Array.isArray(d.moves))throw Error();if(confirm('اطلاعات فعلی با فایل پشتیبان جایگزین شود؟')){db=d;save();alert('بازیابی انجام شد.')}}catch(e){alert('فایل پشتیبان معتبر نیست.')}};r.readAsText(f)}
+function clearAll(){if(confirm('تمام کالاها و سوابق برای همیشه از این مرورگر پاک شوند؟')&&confirm('مطمئنی؟ بهتر است قبل از پاک کردن، پشتیبان بگیری.')){db={products:[],moves:[]};save()}}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+load();
+</script>
+</body>
+</html>
